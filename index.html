@@ -1,176 +1,225 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="SVG to Eagle CAD converter">
-    <meta name="author" content="Gordon Williams & Pnoxi">
-    <!--<link rel="icon" href="favicon.ico">-->
-    <title>SVG to Eagle CAD converter</title>
 
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="SVG to Eagle CAD converter">
+	<meta name="author" content="Gordon Williams & Pnoxi">
+	<!--<link rel="icon" href="favicon.ico">-->
+	<title>SVG to Eagle CAD converter</title>
 
-    <!-- Custom styles for this template -->
-    <link href="style.css" rel="stylesheet">
-  </head>
-  <body class="bg-light">
-     <div class="p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-      <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
-        <h5 class="my-0 mr-md-auto font-weight-normal">svgtoeagle</h5>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-          How to use?
-        </button>
-      </div>
-    </div>
+	<!-- Bootstrap core CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <div class="py-3"></div>
-    <div class="container">
-      <!-- Github corner -->
-      <a href="https://github.com/gfwilliams/svgtoeagle" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+	<!-- Custom styles for this template -->
+	<link href="style.css" rel="stylesheet">
+</head>
 
-      <!-- Modal -->
-      <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">How to use?</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <ul class="navbar-text">
-                <li>In Inkscape</li>
-                <ul class="navbar-text">
-                  <li>File -> Document Properties -> Set correct document size in millimeters</li>
-                  <li>Select all -> Ungroup</li>
-                  <li>Path -> Object to path</li>
-                  <li>Path -> Break apart</li>
-                  <li>Set a fill *or* a stroke set for every shape you want - items without a fill or a stroke won't be rendered</li>
-                </ul>
-                <li>Enter the layer to use in Eagle</li>
-                <li>Choose whether to flip the image horizontally or not</li>
-                <li>Click the 'Choose File' box below and upload your SVG</li>
-                <li>Copy contents of Textarea and Paste into Eagle CAD's command box</li>
-              </ul>
-              <hr>
-              <span>Normally copy/paste works fine, however for complex SVGs the commands become
-                too big to paste into Eagle's command box. You'll need to click 'Download Eagle Script' 
-                and then load that script in Eagle CAD.</span>
-              <hr>
-              <span><strong>Note:</strong> Filled polys with holes will show up in the preview as completely
-                filled - but in Eagle the holes are kept.</span>
-              <hr>
-              <span><strong>Note:</strong> This tool assumes that 0,0 (the crosshair) is in the bottom left
-              of your board in Eagle (which matches SVGs). If it isn't then the positioning of your graphics
-              may be wrong.</span>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-          </div>
-        </div>
-      </div>
+<body class="bg-light">
+	<div class="p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+		<div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+			<h5 class="my-0 mr-md-auto font-weight-normal">svgtoeagle</h5>
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+				How to use?
+			</button>
+		</div>
+	</div>
 
-      <div class="row">
-        <div class="col-md-8 order-md-2 mb-4">
-          <h4 class="d-flex justify-content-between align-items-center mb-3">
-            <span class="text-muted">Result:</span>
-          </h4>
-          <div class="mb-3">
-            <div id="container"></div>
-            <canvas id="can" width="300" height="10">
-          </div>
-          <div class="mb-3">
-            <p id="dimensions"></p>
-          </div>
-          <div id="log" class="alert alert-warning" style="display:none;" role="alert">
-          </div>
-          <hr class="mb-4">
-          <h4 class="mb-3">Script output:</h4>
-          <div class="mb-3">
-           <textarea class="form-control" id="result" rows="9"></textarea>
-          </div>
-          <div class="mb-3">
-            <button class="btn btn-primary btn-lg btn-block" id="dwn-btn" type="submit" onclick="download_script(document.getElementById('fileLoader').value);" disabled>Download eagle script</button>
-          </div>
-        </div>
+	<div class="py-3"></div>
+	<div class="container">
+		<!-- Github corner -->
+		<a href="https://github.com/hazarkarabay/svgtoeagle" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250"
+				style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
+				<path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+				<path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor"
+					style="transform-origin: 130px 106px;" class="octo-arm"></path>
+				<path
+					d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+					fill="currentColor" class="octo-body"></path>
+			</svg></a>
+		<style>
+			.github-corner:hover .octo-arm {
+				animation: octocat-wave 560ms ease-in-out
+			}
 
-        <div class="col-md-4 order-md-1">
-           <h4 class="d-flex justify-content-between align-items-center mb-3">
-            <span class="text-muted">Config:</span>
-          </h4>
-            <div class="mb-3">
-              <label for="">Eagle CAD Layer <span class="text-muted small">Top=1, Bottom=16, tPlace=21, bPlace=22</span></label>
-              <input type="text" class="form-control" id="eagleLayer" placeholder="Eagle CAD Layer" value="21" required>
-              <div class="invalid-feedback">
-                Eagle CAD Layer is required.
-              </div>
-            </div>
-            <div class="mb-3">
-              <label for="">Trace Width <span class="text-muted small">Lower widths produce sharper images (mm)</span></label>
-              <input type="text" class="form-control" id="traceWidth" placeholder="Trace Width" value="0.1" required>
-              <div class="invalid-feedback">
-                Trace Width is required.
-              </div>
-            </div>
-            <div class="mb-3">
-              <label for="">Subsampling <span class="text-muted small">Larger values produce better approximation of SVG paths but increase conversion time</span></label>
-              <input type="text" class="form-control" id="subsampling" placeholder="Subsampling" value="5" required>
-              <div class="invalid-feedback">
-                Subsampling value is required.
-              </div>
-            </div>
-            <div class="mb-3">
-              <label for="">Signal Name <span class="text-muted small">(for copper layers, ignored by otherwise)</span></label>
-              <input type="text" class="form-control" id="signalName" placeholder="Signal Name" value="GND" required>
-              <div class="invalid-feedback">
-                Signal Name is required.
-              </div>
-            </div>
-            <div class="mb-3">
-              <label for="">SVG scale factor <span class="text-muted small">(if dimensions not found in document)</span></label>
-              <input type="text" class="form-control" id="svgScale" placeholder="SVG scale factor" value="3.77953"required>
-              <div class="invalid-feedback">
-                SVG scale factor is required.
-              </div>
-            </div>
-            <h4 class="mb-3">Output format:</h4>
-            <div class="d-block my-3">
-              <div class="custom-control custom-radio">
-                <input id="board" name="eagleformat" type="radio" class="custom-control-input" value="board" checked required>
-                <label class="custom-control-label" for="board">Board</label>
-              </div>
-              <div class="custom-control custom-radio">
-                <input id="library" name="eagleformat" type="radio" class="custom-control-input" value="library" required>
-                <label class="custom-control-label" for="library">Library</label>
-              </div>
-            </div>
-            <hr class="mb-4">
-            <div class="custom-control custom-checkbox">
-              <input type="checkbox" class="custom-control-input" id="flipImage">
-              <label class="custom-control-label" for="flipImage">Flip image horizontally?</label>
-            </div>
-            <div class="custom-control custom-checkbox">
-              <input type="checkbox" class="custom-control-input" id="layerColor">
-              <label class="custom-control-label" for="layerColor">Split layer by color?</label>
-            </div>
-            <hr class="mb-4">
-            <input class="btn btn-lg btn-block" type="file" id="fileLoader"/><br/>
-            <button class="btn btn-primary btn-lg btn-block" type="submit" onclick="convert();">Convert!</button>
-        </div>
-      </div>
+			@keyframes octocat-wave {
 
-      <footer class="my-5 pt-5 text-muted text-center text-small">
-        <p class="mb-1"><a href="https://github.com/gfwilliams/svgtoeagle">Made by Gordon Williams</a></p>
-        <p class="mb-1"><a href="https://github.com/Pnoxi/svgtoeagle">HTML design by Pnoxi</a></p>
-        <p class="mb-1">&copy; 2019 Gordon Williams & Pnoxi</p>
-      </footer>
-    </div>
+				0%,
+				100% {
+					transform: rotate(0)
+				}
 
-    <script src="simplify.js"></script>
-    <script src="svgtoeagle.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap.native/2.0.24/bootstrap-native-v4.min.js"></script>
-  </body>
+				20%,
+				60% {
+					transform: rotate(-25deg)
+				}
+
+				40%,
+				80% {
+					transform: rotate(10deg)
+				}
+			}
+
+			@media (max-width:500px) {
+				.github-corner:hover .octo-arm {
+					animation: none
+				}
+
+				.github-corner .octo-arm {
+					animation: octocat-wave 560ms ease-in-out
+				}
+			}
+		</style>
+
+		<!-- Modal -->
+		<div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">How to use?</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<ul class="navbar-text">
+							<li>Choose your SVG file to convert</li>
+							<ul>
+								<li>If your SVG has text, convert it to paths first (Inkscape: select all, Path -> Object to path)</li>
+							</ul>
+							<li>Enter the layer to use in Eagle</li>
+							<ul>
+								<li>Tick 'Flip image horizontally' for bottom layers</li>
+							</ul>
+							<li>Optionally set an output size, otherwise the SVG's own size is used</li>
+							<li>Click 'Convert'</li>
+							<li>Copy contents of Textarea and Paste into Eagle CAD's command box</li>
+						</ul>
+						<hr>
+						<span>Normally copy/paste works fine, however for complex SVGs the commands become
+							too big to paste into Eagle's command box. You'll need to click 'Download Eagle Script'
+							and then load that script in Eagle CAD.</span>
+						<hr>
+						<span><strong>Note:</strong> This tool assumes that 0,0 (the crosshair) is in the bottom left
+							of your board in Eagle (which matches SVGs). If it isn't then the positioning of your graphics
+							may be wrong.</span>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-8 order-md-2 mb-4">
+				<h4 class="d-flex justify-content-between align-items-center mb-3">
+					Preview:
+				</h4>
+				<div class="mb-3">
+					<div id="container"></div>
+					<canvas id="can" width="300" height="10">
+				</div>
+				<div class="mb-3">
+					<p id="dimensions" style="white-space:pre-line"></p>
+				</div>
+				<div id="log" class="alert alert-warning" style="display:none; white-space:pre-line" role="alert">
+				</div>
+				<hr class="mb-4">
+				<h4 class="mb-3">Script output:</h4>
+				<div class="mb-3">
+					<textarea class="form-control" id="result" rows="9"></textarea>
+				</div>
+				<div class="mb-3">
+					<button class="btn btn-secondary btn-lg btn-block" id="copy-btn" type="button" onclick="copy_script();" disabled>Copy to clipboard</button>
+					<button class="btn btn-primary btn-lg btn-block" id="dwn-btn" type="submit" onclick="download_script(document.getElementById('fileLoader').value);" disabled>Download eagle script</button>
+				</div>
+			</div>
+
+			<div class="col-md-4 order-md-1">
+				<div class="mb-3">
+					<input class="btn btn-lg btn-block" type="file" id="fileLoader" accept=".svg,image/svg+xml" />
+				</div>
+				<h4 class="d-flex justify-content-between align-items-center mb-3">
+					Config:
+				</h4>
+				<fieldset id="settings" disabled>
+					<div class="mb-3">
+						<label for="">Eagle CAD Layer <span class="text-muted small">Top=1, Bottom=16, tPlace=21, bPlace=22, tDocu=51, bDocu=52</span></label>
+						<input type="text" class="form-control" id="eagleLayer" placeholder="Eagle CAD Layer" value="21" required>
+						<div class="invalid-feedback">
+							Eagle CAD Layer is required.
+						</div>
+					</div>
+					<div class="mb-3">
+						<label for="">Trace Width <span class="text-muted small">Polygon outline pen (mm). Shapes are inset to keep their size; detail finer than this is lost. Use your fab's minimum line width</span></label>
+						<input type="text" class="form-control" id="traceWidth" placeholder="Trace Width" value="0.1" required>
+						<div class="invalid-feedback">
+							Trace Width is required.
+						</div>
+					</div>
+					<div class="mb-3">
+						<label for="">Tolerance <span class="text-muted small">Max deviation from the SVG outline (mm). Larger values give simpler geometry (fewer vertices), which Eagle and Gerber handle much better</span></label>
+						<input type="number" min="0" step="any" class="form-control" id="tolerance" placeholder="Tolerance" value="0.01" required>
+					</div>
+					<div class="mb-3">
+						<label for="">Signal Name <span class="text-muted small">(for copper layers, ignored otherwise)</span></label>
+						<input type="text" class="form-control" id="signalName" placeholder="Signal Name" value="GND" required>
+						<div class="invalid-feedback">
+							Signal Name is required.
+						</div>
+					</div>
+					<div class="mb-3">
+						<label for="">Output size <span class="text-muted small">Drawing is scaled to fit inside width x height (mm), aspect ratio kept. Leave blank for the SVG's own size</span></label>
+						<div class="input-group">
+							<input type="number" min="0" step="any" class="form-control" id="outWidth" placeholder="width">
+							<input type="number" min="0" step="any" class="form-control" id="outHeight" placeholder="height">
+						</div>
+					</div>
+					<h4 class="mb-3">Output format:</h4>
+					<div class="d-block my-3">
+						<div class="custom-control custom-radio">
+							<input id="board" name="eagleformat" type="radio" class="custom-control-input" value="board" checked required>
+							<label class="custom-control-label" for="board">Board</label>
+						</div>
+						<div class="custom-control custom-radio">
+							<input id="library" name="eagleformat" type="radio" class="custom-control-input" value="library" required>
+							<label class="custom-control-label" for="library">Library</label>
+						</div>
+					</div>
+					<hr class="mb-4">
+					<div class="custom-control custom-checkbox">
+						<input type="checkbox" class="custom-control-input" id="flipImage">
+						<label class="custom-control-label" for="flipImage">Flip image horizontally</label>
+						<span id="flipHint" class="flip-hint badge badge-warning" style="display:none">Bottom layer: flip image</span>
+					</div>
+					<div class="custom-control custom-checkbox">
+						<input type="checkbox" class="custom-control-input" id="layerColor">
+						<label class="custom-control-label" for="layerColor">Split layer by color</label>
+					</div>
+					<div class="custom-control custom-checkbox">
+						<input type="checkbox" class="custom-control-input" id="pickUp">
+						<label class="custom-control-label" for="pickUp">Attach result to cursor for placing</label>
+					</div>
+					<hr class="mb-4">
+					<button class="btn btn-primary btn-lg btn-block" type="submit" onclick="convert();">Convert</button>
+				</fieldset>
+			</div>
+		</div>
+
+		<footer class="my-5 pt-5 text-muted text-center text-small">
+			<p class="mb-1"><a href="https://github.com/hazarkarabay/svgtoeagle">Fork by Hazar Karabay</a></p>
+			<p class="mb-1"><a href="https://github.com/gfwilliams/svgtoeagle">Originally made by Gordon Williams</a></p>
+			<p class="mb-1"><a href="https://github.com/Pnoxi/svgtoeagle">HTML design by Pnoxi</a></p>
+			<p class="mb-1">&copy; 2019 Gordon Williams & Pnoxi, 2026 Hazar Karabay</p>
+		</footer>
+	</div>
+
+	<script src="clipper.js"></script>
+	<script src="simplify.js"></script>
+	<script src="svgtoeagle.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap.native/2.0.24/bootstrap-native-v4.min.js"></script>
+</body>
+
 </html>

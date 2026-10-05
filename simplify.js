@@ -1,10 +1,10 @@
 /*
- (c) 2013, Vladimir Agafonkin
+ (c) 2017, Vladimir Agafonkin
  Simplify.js, a high-performance JS polyline simplification library
  mourner.github.io/simplify-js
 */
 
-(function () { "use strict";
+(function () { 'use strict';
 
 // to suit your point format, run search/replace for '.x' and '.y';
 // for 3D version, see 3d branch (configurability would draw significant performance overhead)
@@ -63,60 +63,46 @@ function simplifyRadialDist(points, sqTolerance) {
         }
     }
 
-    if (prevPoint !== point) {
-        newPoints.push(point);
-    }
+    if (prevPoint !== point) newPoints.push(point);
 
     return newPoints;
 }
 
-// simplification using optimized Douglas-Peucker algorithm with recursion elimination
+function simplifyDPStep(points, first, last, sqTolerance, simplified) {
+    var maxSqDist = sqTolerance,
+        index;
+
+    for (var i = first + 1; i < last; i++) {
+        var sqDist = getSqSegDist(points[i], points[first], points[last]);
+
+        if (sqDist > maxSqDist) {
+            index = i;
+            maxSqDist = sqDist;
+        }
+    }
+
+    if (maxSqDist > sqTolerance) {
+        if (index - first > 1) simplifyDPStep(points, first, index, sqTolerance, simplified);
+        simplified.push(points[index]);
+        if (last - index > 1) simplifyDPStep(points, index, last, sqTolerance, simplified);
+    }
+}
+
+// simplification using Ramer-Douglas-Peucker algorithm
 function simplifyDouglasPeucker(points, sqTolerance) {
+    var last = points.length - 1;
 
-    var len = points.length,
-        MarkerArray = typeof Uint8Array !== 'undefined' ? Uint8Array : Array,
-        markers = new MarkerArray(len),
-        first = 0,
-        last = len - 1,
-        stack = [],
-        newPoints = [],
-        i, maxSqDist, sqDist, index;
+    var simplified = [points[0]];
+    simplifyDPStep(points, 0, last, sqTolerance, simplified);
+    simplified.push(points[last]);
 
-    markers[first] = markers[last] = 1;
-
-    while (last) {
-
-        maxSqDist = 0;
-
-        for (i = first + 1; i < last; i++) {
-            sqDist = getSqSegDist(points[i], points[first], points[last]);
-
-            if (sqDist > maxSqDist) {
-                index = i;
-                maxSqDist = sqDist;
-            }
-        }
-
-        if (maxSqDist > sqTolerance) {
-            markers[index] = 1;
-            stack.push(first, index, index, last);
-        }
-
-        last = stack.pop();
-        first = stack.pop();
-    }
-
-    for (i = 0; i < len; i++) {
-        if (markers[i]) {
-            newPoints.push(points[i]);
-        }
-    }
-
-    return newPoints;
+    return simplified;
 }
 
 // both algorithms combined for awesome performance
 function simplify(points, tolerance, highestQuality) {
+
+    if (points.length <= 2) return points;
 
     var sqTolerance = tolerance !== undefined ? tolerance * tolerance : 1;
 
@@ -126,15 +112,12 @@ function simplify(points, tolerance, highestQuality) {
     return points;
 }
 
-// export as AMD module / Node module / browser variable
-if (typeof define === 'function' && define.amd) {
-    define(function() {
-        return simplify;
-    });
-} else if (typeof module !== 'undefined') {
+// export as AMD module / Node module / browser or worker variable
+if (typeof define === 'function' && define.amd) define(function() { return simplify; });
+else if (typeof module !== 'undefined') {
     module.exports = simplify;
-} else {
-    window.simplify = simplify;
-}
+    module.exports.default = simplify;
+} else if (typeof self !== 'undefined') self.simplify = simplify;
+else window.simplify = simplify;
 
 })();
